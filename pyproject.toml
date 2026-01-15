@@ -1,0 +1,49 @@
+[project]
+name = "loose-papers"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Jakub Dziarkowski", email = "jakubdziarkowski4@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django (>=6.0.1,<7.0.0)",
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "psycopg[binary] (>=3.3.2,<4.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-django (>=4.11.1,<5.0.0)",
+    "black (>=25.12.0,<26.0.0)",
+    "ruff (>=0.14.11,<0.15.0)",
+    "mypy (>=1.19.1,<2.0.0)",
+    "django-stubs (>=5.2.8,<6.0.0)"
+]
+
+[tool.black]
+line-length = 120
+target-version = ["py314"]
+
+[tool.ruff]
+line-length = 120
+select = ["E", "F", "W", "B", "I", "C"]
+
+[tool.mypy]
+python_version = 3.14
+files = ["apps", "config"]
+plugins = ["mypy_django_plugin.main"]
+strict = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+python_files = ["test_*.py"]
