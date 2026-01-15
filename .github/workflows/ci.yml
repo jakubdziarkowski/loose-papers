@@ -10,6 +10,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_DB: loose_papers_test
+      POSTGRES_USER: loose
+      POSTGRES_PASSWORD: loose
+      POSTGRES_HOST: 127.0.0.1
+      DEBUG: "0"
+
     services:
       postgres:
         image: postgres:18
