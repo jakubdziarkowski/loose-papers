@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: loose_papers_test
+          POSTGRES_USER: loose
+          POSTGRES_PASSWORD: loose
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U loose"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:8
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run migrations
+        run: poetry run python manage.py migrate
+
+      - name: Lint with Black
+        run: poetry run black --check .
+
+      - name: Lint with Ruff
+        run: poetry run ruff check .
+
+      - name: Type check with Mypy
+        run: poetry run mypy .
+
+      - name: Run tests
+        run: poetry run pytest
