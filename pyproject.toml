@@ -32,7 +32,8 @@ dev = [
     "ruff (>=0.14.11,<0.15.0)",
     "mypy (>=1.19.1,<2.0.0)",
     "django-stubs[compatible-mypy] (>=5.2.8,<6.0.0)",
-    "djangorestframework-stubs[compatible-mypy] (>=3.16.7,<4.0.0)"
+    "djangorestframework-stubs[compatible-mypy] (>=3.16.7,<4.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
 ]
 
 [tool.black]
@@ -55,3 +56,4 @@ django_settings_module = "config.settings"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["test_*.py"]
+addopts = "--cov=apps --cov-report=term-missing --cov-fail-under=90"
