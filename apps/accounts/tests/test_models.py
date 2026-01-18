@@ -14,6 +14,12 @@ def test_create_user() -> None:
 
 
 @pytest.mark.django_db
+def test_user_str() -> None:
+    user = User.objects.create(email="test@example.com", password="password123")
+    assert str(user) == "test@example.com"
+
+
+@pytest.mark.django_db
 def test_create_user_without_email_raises_error() -> None:
     with pytest.raises(ValueError, match="Users must have an email address"):
         User.objects.create_user(email="", password="pass")
