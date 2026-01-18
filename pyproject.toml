@@ -6,13 +6,15 @@ authors = [
     {name = "Jakub Dziarkowski", email = "jakubdziarkowski4@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.14,<4.0"
 dependencies = [
     "django (>=6.0.1,<7.0.0)",
     "djangorestframework (>=3.16.1,<4.0.0)",
     "psycopg[binary] (>=3.3.2,<4.0.0)",
     "django-rq (>=3.2.2,<4.0.0)",
-    "dotenv (>=0.9.9,<0.10.0)"
+    "dotenv (>=0.9.9,<0.10.0)",
+    "django-stubs-ext (>=5.2.8,<6.0.0)",
+    "djangorestframework-simplejwt (>=5.5.1,<6.0.0)",
 ]
 
 [tool.poetry]
@@ -29,7 +31,8 @@ dev = [
     "black (>=25.12.0,<26.0.0)",
     "ruff (>=0.14.11,<0.15.0)",
     "mypy (>=1.19.1,<2.0.0)",
-    "django-stubs (>=5.2.8,<6.0.0)"
+    "django-stubs[compatible-mypy] (>=5.2.8,<6.0.0)",
+    "djangorestframework-stubs[compatible-mypy] (>=3.16.7,<4.0.0)"
 ]
 
 [tool.black]
@@ -43,12 +46,12 @@ lint.select = ["E", "F", "W", "B", "I", "C"]
 [tool.mypy]
 python_version = 3.14
 files = ["apps", "config"]
-plugins = ["mypy_django_plugin.main"]
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 strict = true
 
 [tool.django-stubs]
 django_settings_module = "config.settings"
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "config.settings.test"
+DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["test_*.py"]
