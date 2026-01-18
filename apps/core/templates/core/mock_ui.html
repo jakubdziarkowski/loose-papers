@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mock Auth UI</title>
+<link rel="stylesheet" href="{% static 'core/mock_ui.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Mock API Client</h1>
+
+    <!-- Django URLs -->
+    <div id="urls"
+         data-login-url="{% url 'accounts:login' %}"
+         data-me-url="{% url 'accounts:me' %}"
+         data-logout-url="{% url 'accounts:logout' %}"
+         data-refresh-url="{% url 'accounts:token_refresh' %}">
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="login">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="Enter email" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter password" required>
+
+            <button type="submit">Login</button>
+            <pre id="loginError" class="error"></pre>
+        </form>
+    </div>
+
+    <!-- LOGGED IN APP -->
+    <div id="app" class="hidden">
+        <h2>Welcome ✅</h2>
+        <button id="logoutBtn">Logout</button>
+
+        <h3>Your Profile</h3>
+        <pre id="me"></pre>
+    </div>
+
+</div>
+
+<script src="{% static 'core/mock_ui.js' %}"></script>
+</body>
+</html>
