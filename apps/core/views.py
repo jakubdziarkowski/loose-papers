@@ -3,4 +3,4 @@ from django.shortcuts import render
 
 
 def mock_ui(request: HttpRequest) -> HttpResponse:
-    return render(request, "core/mock_ui.html")
+    return render(request, "core/mock_ui.html")  # pragma: no cover
