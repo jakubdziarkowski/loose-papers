@@ -3,6 +3,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from apps.files.models import UserFile
+
 User = get_user_model()
 
 
@@ -37,6 +39,21 @@ class AccountsAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], self.user.id)
         self.assertEqual(response.data["email"], self.user.email)
+
+    def test_me_returns_user_data_with_files(self) -> None:
+        login_response = self.client.post(self.login_url, {"email": self.user.email, "password": "securepassword"})
+        access_token = login_response.data["access"]
+
+        UserFile.objects.create(owner=self.user, name="test_file.txt", file="path/to/test_file.txt")
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
+        response = self.client.get(f"{self.me_url}?with_files=true")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], self.user.id)
+        self.assertEqual(response.data["email"], self.user.email)
+        self.assertIn("files", response.data)
+        self.assertEqual(len(response.data["files"]), 1)
+        self.assertEqual(response.data["files"][0]["name"], "test_file.txt")
 
     def test_token_refresh(self) -> None:
         login_response = self.client.post(self.login_url, {"email": self.user.email, "password": "securepassword"})
