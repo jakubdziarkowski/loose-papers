@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import mock_ui
+from .views import index
 
 urlpatterns = [
-    path("", mock_ui, name="mock-ui"),
+    path("", index, name="index"),
 ]
